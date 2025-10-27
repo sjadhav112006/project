@@ -6,7 +6,7 @@ This is a complete, runnable desktop application built with JavaFX that provides
 The core logic uses the java.util.zip package.
 Project Deliverables
 1.	Source Code: All source code is included in the src directory, structured as a standard Maven project.
-2.	Executable File: You can create an executable .jar file from this Maven project using the command mvn package. The resulting .jar will be in the target directory.
+2.	Executable File: You can create an executable .jar file from this Maven project using the command mvn package. The resulting .jar will be in the target directory
 Features
 •	Compress Multiple Files: Select one or more files to add to a new .zip archive.
 •	Compress Folder: Select an entire directory to compress into a .zip archive, preserving the folder structure.
