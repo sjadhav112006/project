@@ -1,0 +1,80 @@
+Project Report: File Compressor and Decompressor
+Project: Desktop File Compression Utility
+Author: (Shravani Jadhav) Date: October 26, 2025
+
+1. Introduction
+In modern computing, file management is a crucial daily task. Large files and folders 
+consume significant disk space and bandwidth, making them difficult to store and share. File 
+compression addresses this by encoding data into a smaller format, with ZIP being the most 
+ubiquitous standard.
+This project's objective was to develop a standalone, user-friendly desktop application using 
+Java. The goal was to provide essential file compression and decompression functionalities in 
+a simple, intuitive graphical user interface (GUI), moving beyond command-line tools and 
+offering a clear, accessible alternative to more complex commercial software.
+
+2. Abstract
+This report details the design and implementation of the "File Compressor and 
+Decompressor," a desktop application built entirely in Java. The tool provides a clean GUI, 
+developed with JavaFX, allowing users to perform three primary operations: Compress 
+multiple individual files into a single .zip archive.Compress an entire folder and its sub￾directory structure into a .zip archive.Extract the contents of an existing .zip archive to a user￾specified directory.
+The application's core logic leverages the standard java.util.zip library, specifically the 
+ZipOutputStream and ZipInputStream classes. To ensure a smooth user experience, long￾running compression and extraction tasks are handled on a separate background thread using 
+JavaFX Task. The UI provides real-time feedback through a progress bar and a detailed 
+logging area, which reports the status of operations and final file statistics.
+
+3. Tools Used
+• Core Language: Java (JDK 11) - The foundational language for the entire 
+application.
+• User Interface (UI): JavaFX - A modern Java framework used to build the graphical 
+user interface, including all windows, buttons, and layouts.
+• Compression Logic: java.util.zip Package - A standard Java library providing the 
+necessary classes (ZipOutputStream, ZipInputStream, ZipEntry) to handle reading 
+and writing ZIP archives.
+• Build & Dependency Management: Apache Maven - Used to manage project 
+dependencies (specifically JavaFX) and to build the final executable .jar file.
+• Concurrency: JavaFX Task - A built-in mechanism used to run the file I/O operations 
+in the background, preventing the UI from freezing during heavy tasks.
+• Styling: CSS - A simple stylesheet was used to improve the visual aesthetics of the 
+JavaFX components, making the application look modern and clean.
+
+4. Steps Involved in Building the Project
+1. Project Setup: A new Maven project was initialized. The pom.xml file was 
+configured to include the necessary javafx-controls and javafx-graphics dependencies.
+2. UI Design (App.java): The main application class was created. The UI was built 
+using a VBox as the root container with a GridPane for the main buttons. Key 
+components added were:
+o Three Button objects ("Compress Files", "Compress Folder", "Extract ZIP").
+o A ProgressBar to provide visual feedback on long operations.
+o A TextArea to act as a log for all operations, successes, and errors.
+3. Backend Logic (ZipService.java): A separate service class was created to 
+encapsulate all compression and extraction logic.
+o Compression: Methods were written to take a list of files or a single folder, 
+create a ZipOutputStream, and iterate through the files. For folders, 
+Files.walk() was used to recursively find all files and Path.relativize() was 
+used to preserve the folder structure within the zip.
+o Extraction: A method was written to take a .zip file, open a ZipInputStream, 
+and loop through each ZipEntry. Each entry was written to the target directory. 
+A security check was implemented to prevent "Zip Slip" vulnerabilities, 
+ensuring files were not extracted outside the chosen folder.
+4. Asynchronous Integration: To connect the UI and backend without freezing the 
+application, JavaFX Tasks were used.
+o Each button's event handler creates and starts a new Task on a background 
+thread.
+o Callback functions (Consumer<Double> for progress, Consumer<String> for 
+logging) were passed to the ZipService.
+o The service methods used these callbacks to send updates. These updates were 
+safely applied to the UI using Platform.runLater().
+
+5. Styling and Packaging:
+o A style.css file was created and linked to the scene to style buttons, the 
+progress bar, and the log area for a more professional look.
+o The maven-shade-plugin was configured in pom.xml to bundle the application 
+code and all its JavaFX dependencies into a single, executable .jar file.
+
+5. Conclusion
+This project successfully achieved its objective of creating a simple, functional, and user￾friendly file compression utility. The final application is robust, handling both file and folder 
+compression/extraction effectively, and provides excellent user feedback through its 
+responsive, non-blocking interface.
+The key learning experiences from this project include practical application of Java file I/O 
+(both standard and NIO), effective use of the java.util.zip library, and the critical importance 
+of concurrency (multi-threading) in desktop applications to maintain a responsive GUI.
